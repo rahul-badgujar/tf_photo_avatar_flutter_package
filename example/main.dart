@@ -31,17 +31,16 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final ValueNotifier<bool> showCachedImage = ValueNotifier<bool>(false);
+  bool showCachedImage = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Column(
           children: [
-            ValueListenableBuilder<bool>(
-              valueListenable: showCachedImage,
-              builder: (context, useCachedImage, _) {
-                if (useCachedImage) {
+            Builder(
+              builder: (context) {
+                if (showCachedImage) {
                   return cachedImage();
                 } else {
                   return noncachedImage();
@@ -54,15 +53,12 @@ class _MyHomePageState extends State<MyHomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ValueListenableBuilder<bool>(
-                  valueListenable: showCachedImage,
-                  builder: (context, useCachedImage, _) {
-                    return Checkbox(
-                      value: useCachedImage,
-                      onChanged: (newVal) {
-                        showCachedImage.value = newVal ?? false;
-                      },
-                    );
+                Checkbox(
+                  value: showCachedImage,
+                  onChanged: (newVal) {
+                    setState(() {
+                      showCachedImage = newVal ?? false;
+                    });
                   },
                 ),
                 const Text(
