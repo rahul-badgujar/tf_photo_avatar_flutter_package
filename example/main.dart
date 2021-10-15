@@ -51,16 +51,27 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(
               height: 12,
             ),
-            ValueListenableBuilder<bool>(
-              valueListenable: showCachedImage,
-              builder: (context, useCachedImage, _) {
-                return Checkbox(
-                  value: useCachedImage,
-                  onChanged: (newVal) {
-                    showCachedImage.value = newVal ?? false;
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ValueListenableBuilder<bool>(
+                  valueListenable: showCachedImage,
+                  builder: (context, useCachedImage, _) {
+                    return Checkbox(
+                      value: useCachedImage,
+                      onChanged: (newVal) {
+                        showCachedImage.value = newVal ?? false;
+                      },
+                    );
                   },
-                );
-              },
+                ),
+                const Text(
+                  'Change Cache Status',
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -73,7 +84,12 @@ class _MyHomePageState extends State<MyHomePage> {
       children: [
         TfPhotoAvatar.noncached(
           imageUrl: testImageUrl,
-          placeholderAssetPath: testPlaceholderAssetPath,
+          onLoadingImageAssetPath: testPlaceholderAssetPath,
+          onErrorImageAssetPath: testErrorImageAssetPath,
+          radius: 90,
+          imageCacheHeight: 100,
+          imageCacheWidth: 100,
+          imageFit: BoxFit.fill,
         ),
         const SizedBox(
           height: 8,
@@ -93,8 +109,12 @@ class _MyHomePageState extends State<MyHomePage> {
       children: [
         TfPhotoAvatar.cached(
           imageUrl: testImageUrl,
-          onErrorImage: const AssetImage(testErrorImageAssetPath),
-          onLoadingImage: const AssetImage(testPlaceholderAssetPath),
+          onErrorImageAssetPath: testErrorImageAssetPath,
+          onLoadingImageAssetPath: testPlaceholderAssetPath,
+          radius: 90,
+          memoryCacheHeight: 100,
+          memoryCacheWidth: 100,
+          imageFit: BoxFit.fill,
         ),
         const SizedBox(
           height: 8,

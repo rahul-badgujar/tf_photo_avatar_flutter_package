@@ -6,12 +6,11 @@ class TfPhotoAvatar extends StatelessWidget {
   final bool useImageCache;
   final double radius;
   final Color backgroundColor;
-  final ImageProvider? onErrorImage;
-  final ImageProvider? onLoadingImage;
   final int? memoryCacheHeight;
   final int? memoryCacheWidth;
   final BoxFit? imageFit;
-  final String? placeholderAssetPath;
+  final String? onLoadingImageAssetPath;
+  final String? onErrorImageAssetPath;
 
   const TfPhotoAvatar._({
     Key? key,
@@ -19,20 +18,19 @@ class TfPhotoAvatar extends StatelessWidget {
     this.useImageCache = false,
     this.radius = 50,
     this.backgroundColor = Colors.grey,
-    this.onErrorImage,
-    this.onLoadingImage,
     this.memoryCacheHeight,
     this.memoryCacheWidth,
     this.imageFit,
-    this.placeholderAssetPath,
+    this.onLoadingImageAssetPath,
+    this.onErrorImageAssetPath,
   }) : super(key: key);
 
   factory TfPhotoAvatar.cached(
       {required String imageUrl,
       double radius = 50,
       Color backgroundColor = Colors.grey,
-      required ImageProvider onErrorImage,
-      required ImageProvider onLoadingImage,
+      String? onLoadingImageAssetPath,
+      String? onErrorImageAssetPath,
       int? memoryCacheHeight,
       int? memoryCacheWidth,
       BoxFit? imageFit}) {
@@ -41,8 +39,8 @@ class TfPhotoAvatar extends StatelessWidget {
       useImageCache: true,
       radius: radius,
       backgroundColor: backgroundColor,
-      onErrorImage: onErrorImage,
-      onLoadingImage: onLoadingImage,
+      onLoadingImageAssetPath: onLoadingImageAssetPath,
+      onErrorImageAssetPath: onErrorImageAssetPath,
       memoryCacheHeight: memoryCacheHeight,
       memoryCacheWidth: memoryCacheWidth,
     );
@@ -52,7 +50,8 @@ class TfPhotoAvatar extends StatelessWidget {
     required String imageUrl,
     double radius = 50,
     Color backgroundColor = Colors.grey,
-    required String placeholderAssetPath,
+    String? onLoadingImageAssetPath,
+    String? onErrorImageAssetPath,
     int? imageCacheHeight,
     int? imageCacheWidth,
     BoxFit? imageFit,
@@ -62,7 +61,8 @@ class TfPhotoAvatar extends StatelessWidget {
       useImageCache: false,
       radius: radius,
       backgroundColor: backgroundColor,
-      placeholderAssetPath: placeholderAssetPath,
+      onLoadingImageAssetPath: onLoadingImageAssetPath,
+      onErrorImageAssetPath: onErrorImageAssetPath,
       imageFit: imageFit,
       memoryCacheHeight: imageCacheHeight,
       memoryCacheWidth: imageCacheWidth,
@@ -82,14 +82,18 @@ class TfPhotoAvatar extends StatelessWidget {
   Widget get onImageErrorWidget => CircleAvatar(
         backgroundColor: backgroundColor,
         radius: radius,
-        backgroundImage: onErrorImage,
+        backgroundImage: onErrorImageAssetPath == null
+            ? null
+            : AssetImage(onErrorImageAssetPath!),
       );
 
   // placeholder widget while image loads
   Widget get onImageLoadingWidget => CircleAvatar(
         backgroundColor: backgroundColor,
         radius: radius,
-        backgroundImage: onLoadingImage,
+        backgroundImage: onLoadingImageAssetPath == null
+            ? null
+            : AssetImage(onLoadingImageAssetPath!),
       );
 
   Widget _buildUncachedAvatar() {
@@ -97,12 +101,13 @@ class TfPhotoAvatar extends StatelessWidget {
       borderRadius: BorderRadius.circular(radius),
       child: FadeInImage.assetNetwork(
         placeholder:
-            placeholderAssetPath!, // placeholderAssetPath can never be null here
+            onLoadingImageAssetPath!, // placeholderAssetPath can never be null here
         image: imageUrl,
         fit: imageFit,
         height: 2 * radius,
         width: 2 * radius,
         imageCacheHeight: memoryCacheHeight, imageCacheWidth: memoryCacheWidth,
+        imageErrorBuilder: (context, error, stackTrace) => onImageErrorWidget,
       ),
     );
   }
