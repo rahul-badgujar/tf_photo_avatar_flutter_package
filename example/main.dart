@@ -31,19 +31,38 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final ValueNotifier<bool> showCachedImage = ValueNotifier<bool>(false);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: SizedBox(
-          width: double.infinity,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              cachedImage(),
-              noncachedImage(),
-            ],
-          ),
+        child: Column(
+          children: [
+            ValueListenableBuilder<bool>(
+              valueListenable: showCachedImage,
+              builder: (context, useCachedImage, _) {
+                if (useCachedImage) {
+                  return cachedImage();
+                } else {
+                  return noncachedImage();
+                }
+              },
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            ValueListenableBuilder<bool>(
+              valueListenable: showCachedImage,
+              builder: (context, useCachedImage, _) {
+                return Checkbox(
+                  value: useCachedImage,
+                  onChanged: (newVal) {
+                    showCachedImage.value = newVal ?? false;
+                  },
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
@@ -55,6 +74,9 @@ class _MyHomePageState extends State<MyHomePage> {
         TfPhotoAvatar.noncached(
           imageUrl: testImageUrl,
           placeholderAssetPath: testPlaceholderAssetPath,
+        ),
+        const SizedBox(
+          height: 8,
         ),
         const Text(
           'Non Cached Image',
@@ -73,6 +95,9 @@ class _MyHomePageState extends State<MyHomePage> {
           imageUrl: testImageUrl,
           onErrorImage: const AssetImage(testErrorImageAssetPath),
           onLoadingImage: const AssetImage(testPlaceholderAssetPath),
+        ),
+        const SizedBox(
+          height: 8,
         ),
         const Text(
           'Cached Image',
