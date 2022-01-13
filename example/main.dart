@@ -38,6 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           children: [
+            const Spacer(),
             Builder(
               builder: (context) {
                 if (showCachedImage) {
@@ -69,6 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
+            const Spacer(),
           ],
         ),
       ),
