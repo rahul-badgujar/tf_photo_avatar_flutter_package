@@ -27,7 +27,7 @@ To create a photo avatar with image caching support.
 
 ```dart
      TfPhotoAvatar.cached(
-        imageUrl: 'assets/images/img1.png',
+        imageUrl: 'www.images.com/img1.png',
         onErrorImageAssetPath: 'assets/images/error.png',
         onLoadingImageAssetPath: 'assets/images/loading.png',
         radius: 90,
@@ -41,7 +41,7 @@ To create a photo avatar without image caching support.
 
 ```dart
     TfPhotoAvatar.noncached(
-        imageUrl: 'assets/images/img1.png',
+        imageUrl: 'www.images.com/img1.png',
         onLoadingImageAssetPath: 'assets/images/loading.png',
         onErrorImageAssetPath: 'assets/images/error.png',
         radius: 90,
