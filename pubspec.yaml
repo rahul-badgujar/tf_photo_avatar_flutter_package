@@ -1,5 +1,5 @@
 name: tf_photo_avatar
-description: Tf_photo_avatar is the package for Tenfins Circular Photo Avatar Widget, i.e., TfPhotoAvatar. It supports Cached and Non-cached Image options.
+description: tf_photo_avatar is the package for Tenfins Circular Photo Avatar Widget, i.e., TfPhotoAvatar. It supports Cached and Non-cached Image options.
 version: 1.0.0
 homepage: https://github.com/rahul-badgujar/tf_photo_avatar_flutter_package.git
 
